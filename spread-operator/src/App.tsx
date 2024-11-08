@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useState, ChangeEvent } from "react";
 
 function App() {
+  const [inputValue, setInputValue] = useState<string>("");
+  const [todos, setTodo] = useState<string[]>([]);
+  function handleChange(event: ChangeEvent<{ value: string }>) {
+    setInputValue(event.target.value);
+  }
+  function addTodo() {
+    setTodo((prevState: string[]) => {
+      return [...prevState, inputValue];
+    });
+    setInputValue("");
+  }
   return (
     <div className="container">
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
       <div className="form">
-        <input type="text" />
+        <input type="text" onChange={handleChange} value={inputValue} />
         <button>
-          <span>Add</span>
+          <span onClick={addTodo}>Add</span>
         </button>
       </div>
       <div>
         <ul>
-          <li>A Item</li>
+          {todos.map((todo, ind) => (
+            <li key={ind}>{todo}</li>
+          ))}
         </ul>
       </div>
     </div>
